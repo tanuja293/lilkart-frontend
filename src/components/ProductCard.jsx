@@ -1,23 +1,54 @@
-import React from "react";
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
-const ProductCard = ({ product, onAdd }) => {
+export default function ProductCard({ product }) {
+  const { addToCart, getProductQty } = useContext(CartContext);
+  const qty = getProductQty(product.id);
+
   return (
-    <div className="border p-4 rounded shadow hover:shadow-lg transition">
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 16,
+        padding: 12,
+        boxShadow: "0 10px 20px rgba(0,0,0,0.08)",
+        position: "relative",
+      }}
+    >
       <img
         src={product.image}
         alt={product.name}
-        className="w-full h-48 object-cover rounded mb-2"
+        style={{
+          width: "100%",
+          height: 160,
+          objectFit: "cover",
+          borderRadius: 12,
+        }}
       />
-      <h3 className="font-bold text-lg">{product.name}</h3>
-      <p className="text-pink-500 font-bold">₹{product.price}</p>
-      <button
-        onClick={onAdd}
-        className="mt-2 bg-pink-300 text-white px-3 py-1 rounded hover:bg-pink-400 transition"
-      >
-        Add to Cart
-      </button>
+      {qty > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 10,
+            background: "#f54242",
+            color: "#fff",
+            borderRadius: "50%",
+            width: 24,
+            height: 24,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 12,
+            fontWeight: "bold",
+          }}
+        >
+          {qty}
+        </div>
+      )}
+      <h4>{product.name}</h4>
+      <p>₹{product.price}</p>
+      <button onClick={() => addToCart(product)}>Add to Cart</button>
     </div>
   );
-};
-
-export default ProductCard;
+}

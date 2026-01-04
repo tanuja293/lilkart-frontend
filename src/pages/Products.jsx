@@ -1,66 +1,47 @@
-import React, { useState } from "react";
-import products from "../data/products";
+import { useState } from "react";
+import productsData from "../data/products";
 import ProductCard from "../components/ProductCard";
-import { useCart } from "../context/CartContext";
 
-const Products = () => {
-  const { addToCart } = useCart();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  // Get unique categories
-  const categories = ["All", ...new Set(products.map((p) => p.category))];
-
-  const filteredProducts = products.filter((p) => {
-    const matchesCategory =
-      selectedCategory === "All" ? true : p.category === selectedCategory;
-    const matchesSearch = p.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+export default function Products() {
+  const [search, setSearch] = useState("");
+  const sellerProducts =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("sellerProducts") || "[]")
+      : [];
+  const allProducts = [...productsData, ...sellerProducts];
+  const filtered = allProducts.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className="p-4">
-      {/* Search Bar */}
+    <div style={{ padding: 20 }}>
+      <h2>🛍️ Products</h2>
       <input
         type="text"
         placeholder="Search products..."
-        className="mb-4 p-2 border rounded w-full max-w-md"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{
+          padding: 10,
+          width: "100%",
+          marginBottom: 20,
+          borderRadius: 10,
+          border: "1px solid #ddd",
+        }}
       />
-
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-1 rounded-full text-sm font-medium transition
-              ${
-                selectedCategory === cat
-                  ? "bg-pink-300 text-white"
-                  : "bg-pink-100 text-pink-600 hover:bg-pink-200"
-              }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {filteredProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAdd={() => addToCart(product)}
-          />
-        ))}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+          gap: 20,
+        }}
+      >
+        {filtered.length === 0 ? (
+          <p>No products found</p>
+        ) : (
+          filtered.map((p) => <ProductCard key={p.id} product={p} />)
+        )}
       </div>
     </div>
   );
-};
-
-export default Products;
+}

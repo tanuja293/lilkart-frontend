@@ -1,11 +1,17 @@
-import React from "react";
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="bg-pink-100 p-4 text-center text-gray-700">
-      &copy; 2026 Lil'Kart. All rights reserved.
+    <footer
+      style={{
+        textAlign: "center",
+        padding: "20px",
+        marginTop: "40px",
+        background: "#e6ddff",
+        color: "#333",
+        boxShadow: "0 -5px 15px rgba(0,0,0,0.05)",
+      }}
+    >
+      <p>© 2026 Lil’Kart. All rights reserved.</p>
+      <p>Made with ❤️ for your portfolio</p>
     </footer>
   );
-};
-
-export default Footer;
+}

@@ -1,23 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
-const Home = () => {
+export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center p-8">
-      <h1 className="text-4xl font-bold mb-4 text-pink-600">
-        Welcome to Lil'Kart
+    <div
+      style={{
+        textAlign: "center",
+        padding: "60px 20px",
+        background: "linear-gradient(120deg,#dff5ea,#e6ddff)",
+        minHeight: "calc(100vh - 60px)",
+      }}
+    >
+      <h1 style={{ fontSize: "2.5rem", marginBottom: 20 }}>
+        Welcome to Lil’Kart 🛍️
       </h1>
-      <p className="mb-4 text-gray-700 text-center max-w-md">
-        Explore our amazing pastel-themed products and add them to your cart!
+      <p style={{ fontSize: "1.2rem", marginBottom: 30 }}>
+        Your one-stop marketplace for pastel goodies! Shop, sell, and enjoy a
+        colorful shopping experience.
       </p>
-      <Link
-        to="/products"
-        className="bg-pink-300 text-white px-6 py-2 rounded hover:bg-pink-400 transition"
+      <a
+        href="/products"
+        style={{
+          padding: "12px 20px",
+          borderRadius: 12,
+          background: "#f8c8dc",
+          boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+          fontWeight: "bold",
+        }}
       >
-        Shop Now
-      </Link>
+        Explore Products
+      </a>
     </div>
   );
-};
-
-export default Home;
+}
